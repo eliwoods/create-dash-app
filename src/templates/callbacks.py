@@ -1,8 +1,10 @@
+import src.templates.keys as keys
+
 DIR_NAME = 'callbacks'
 
-INDEX_TEMPLATE = '''
+INDEX_TEMPLATE = f'''
 from dash.dependencies import Input, Output
 
-from {base}.server import app
+from {{keys.BASE}}.server import app
 
 '''
