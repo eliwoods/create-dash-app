@@ -54,6 +54,7 @@ def parse_continue() -> bool:
     return parsed
 
 
+# TODO(ew) we still are prompted to continue even if folder doesn't exist
 def main():
     kwargs = parse_args()
     logging.config.dictConfig(LOGGING_CONFIG)

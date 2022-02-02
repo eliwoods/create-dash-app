@@ -56,9 +56,6 @@ class FileGenerator:
         rel_filepath = os.path.join(path, filename)
         LOG.debug(f'Generating file "{rel_filepath}"')
 
-        if template and template[0] == '\n':
-            template = template[1:]
-
         with open(os.path.join(self.abs_base, rel_filepath), 'w') as f:
             f.write(template.format(**template_kwargs))
 

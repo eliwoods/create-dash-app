@@ -1,6 +1,6 @@
 import templates.keys as keys
 
-APP_TEMPLATE = f'''
+APP_TEMPLATE = f'''\
 from {{{keys.BASE}}}.components.index import Layout
 from {{{keys.BASE}}}.server import app
 
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     
 '''
 
-SERVER_TEMPLATE = f'''
+SERVER_TEMPLATE = f'''\
 import dash
 import dash_bootstrap_components as dbc
 
@@ -42,7 +42,7 @@ cache = Cache(
 
 '''
 
-WSGI_TEMPLATE = f'''
+WSGI_TEMPLATE = f'''\
 # noinspection PyUnresolvedReferences
 from {{{keys.BASE}}}.app import server as application
 
