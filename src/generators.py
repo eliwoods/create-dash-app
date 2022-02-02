@@ -55,8 +55,6 @@ class FileGenerator:
 
         rel_filepath = os.path.join(path, filename)
         LOG.debug(f'Generating file "{rel_filepath}"')
-        LOG.debug(f'Template kwargs: {template_kwargs}')
-        LOG.debug(f'Template:\n{template}')
 
         with open(os.path.join(self.abs_base, rel_filepath), 'w') as f:
             f.write(template.format(**template_kwargs))
@@ -72,7 +70,8 @@ class FileGenerator:
     def generate_root_files(self):
         LOG.info('Generating root files')
         self.generate('server.py', root.APP_TEMPLATE, template_kwargs=self._kwargs())
-        self.generate('app.py', root.SERVER_TEMPLATE, template_kwargs=self._kwargs(**{keys.CACHE_PATH: self.cache_path}))
+        self.generate('app.py', root.SERVER_TEMPLATE,
+                      template_kwargs=self._kwargs(**{keys.CACHE_PATH: self.cache_path}))
         self.generate('wsgi.py', root.WSGI_TEMPLATE, template_kwargs=self._kwargs())
 
     def generate_callback_files(self):

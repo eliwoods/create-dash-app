@@ -51,3 +51,7 @@ venv.bak/
 
 # IntelliJ
 .idea
+
+# Testing artifacts
+dash_app/
+*/dash_app/
