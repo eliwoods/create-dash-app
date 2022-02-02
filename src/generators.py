@@ -18,16 +18,16 @@ DEFAULT_ROOT_PATH = '.'
 class FileGenerator:
 
     def __init__(self, base: str = DEFAULT_APP_BASE, title: str = DEFAULT_APP_BASE,
-                 root_path: str = DEFAULT_ROOT_PATH, cache_path: str = DEFAULT_ROOT_PATH):
+                 path: str = DEFAULT_ROOT_PATH, cache: str = DEFAULT_ROOT_PATH):
         self.base = base
         self.title = title
-        self.root_path = os.path.abspath(root_path)
+        self.root_path = os.path.abspath(path)
         self.abs_base = os.path.join(self.root_path, self.base)
 
-        if cache_path == DEFAULT_ROOT_PATH:
-            self.cache_path = os.path.abspath(cache_path)
+        if cache == DEFAULT_ROOT_PATH:
+            self.cache_path = os.path.abspath(cache)
         else:
-            self.cache_path = cache_path
+            self.cache_path = cache
 
         self._init_root()
 
@@ -41,6 +41,10 @@ class FileGenerator:
         LOG.info(f'Initializing base directory "{self.base}"')
         self.ensure_dir_exists(self.abs_base)
 
+    @property
+    def exists(self):
+        return os.path.isdir(self.abs_base)
+
     def generate(self, filename: str, template: str, template_kwargs: Dict[str, str] = None, path: str = None):
         if template_kwargs is None:
             template_kwargs = {}
@@ -51,6 +55,8 @@ class FileGenerator:
 
         rel_filepath = os.path.join(path, filename)
         LOG.debug(f'Generating file "{rel_filepath}"')
+        LOG.debug(f'Template kwargs: {template_kwargs}')
+        LOG.debug(f'Template:\n{template}')
 
         with open(os.path.join(self.abs_base, rel_filepath), 'w') as f:
             f.write(template.format(**template_kwargs))
@@ -65,8 +71,8 @@ class FileGenerator:
 
     def generate_root_files(self):
         LOG.info('Generating root files')
-        self.generate('server.py', root.SERVER_TEMPLATE, template_kwargs=self._kwargs())
-        self.generate('app.py', root.APP_TEMPLATE, template_kwargs=self._kwargs(**{keys.CACHE_PATH: self.cache_path}))
+        self.generate('server.py', root.APP_TEMPLATE, template_kwargs=self._kwargs())
+        self.generate('app.py', root.SERVER_TEMPLATE, template_kwargs=self._kwargs(**{keys.CACHE_PATH: self.cache_path}))
         self.generate('wsgi.py', root.WSGI_TEMPLATE, template_kwargs=self._kwargs())
 
     def generate_callback_files(self):
