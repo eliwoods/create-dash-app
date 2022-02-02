@@ -1,12 +1,12 @@
-import src.templates.keys as keys
+import templates.keys as keys
 
 APP_TEMPLATE = f'''
-from {{keys.BASE}}.components.index import Layout
-from {{keys.BASE}}.server import app
+from {{{keys.BASE}}}.components.index import Layout
+from {{{keys.BASE}}}.server import app
 
 # In order for callbacks to work, they must be imported where Dash is instantiated 
 # noinspection PyUnresolvedReferences
-import {{keys.BASE}}.callbacks.index
+import {{{keys.BASE}}}.callbacks.index
 
 server = app.server
 app.layout = Layout
@@ -30,20 +30,20 @@ app = dash.Dash(
     # Dash throws exceptions about callbacks from components that might be not loaded yet if
     # elements like Tabs are used. These alerts are annoying so suppress them.
     suppress_callback_exceptions=True,
-    title={{keys.title}},
+    title={{{keys.TITLE}}},
 )
 cache = Cache(
     app.server,
-    config={{
+    config={{{{
         'CACHE_TYPE': 'filesystem',
-        'CACHE_DIR': os.path.join({{keys.CACHE_PATH}}, 'dash-cache'),
-    }}
+        'CACHE_DIR': os.path.join({{{keys.CACHE_PATH}}}, 'dash-cache'),
+    }}}}
 )
 
 '''
 
 WSGI_TEMPLATE = f'''
 # noinspection PyUnresolvedReferences
-from {{keys.BASE}}.app import server as application
+from {{{keys.BASE}}}.app import server as application
 
 '''

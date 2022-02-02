@@ -1,4 +1,4 @@
-import src.templates.keys as keys
+import templates.keys as keys
 
 DIR_NAME = 'components'
 
@@ -9,7 +9,7 @@ import dash_bootstrap_components as dbc
 
 
 Layout = html.Div(id='main', children=[
-    html.p('Welcome to {{keys.TITLE}}!'),
+    html.p('Welcome to {{{keys.TITLE}}}!'),
 ])
 
 '''
