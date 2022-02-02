@@ -56,8 +56,14 @@ class FileGenerator:
         rel_filepath = os.path.join(path, filename)
         LOG.debug(f'Generating file "{rel_filepath}"')
 
+        if template and template[0] == '\n':
+            template = template[1:]
+
         with open(os.path.join(self.abs_base, rel_filepath), 'w') as f:
             f.write(template.format(**template_kwargs))
+
+    def generate_init(self, path: str = None):
+        self.generate('__init__.py', '', path=path)
 
     def _kwargs(self, **kwargs) -> Dict[str, str]:
         base_kwargs = {
@@ -69,6 +75,7 @@ class FileGenerator:
 
     def generate_root_files(self):
         LOG.info('Generating root files')
+        self.generate_init()
         self.generate('server.py', root.APP_TEMPLATE, template_kwargs=self._kwargs())
         self.generate('app.py', root.SERVER_TEMPLATE,
                       template_kwargs=self._kwargs(**{keys.CACHE_PATH: self.cache_path}))
@@ -76,10 +83,12 @@ class FileGenerator:
 
     def generate_callback_files(self):
         LOG.info('Generating callback files')
+        self.generate_init(path=callbacks.DIR_NAME)
         self.generate('index.py', callbacks.INDEX_TEMPLATE, template_kwargs=self._kwargs(), path=callbacks.DIR_NAME)
 
     def generate_component_files(self):
         LOG.info('Generating component files')
+        self.generate_init(path=components.DIR_NAME)
         self.generate('index.py', components.INDEX_TEMPLATE, template_kwargs=self._kwargs(), path=components.DIR_NAME)
 
     def generate_assets(self):
