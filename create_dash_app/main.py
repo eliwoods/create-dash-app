@@ -3,7 +3,7 @@ from typing import Dict
 import logging
 import logging.config
 
-from generators import FileGenerator, DEFAULT_ROOT_PATH, DEFAULT_APP_BASE
+from create_dash_app.generators import FileGenerator, DEFAULT_ROOT_PATH, DEFAULT_APP_BASE
 
 LOG = logging.getLogger(__file__)
 

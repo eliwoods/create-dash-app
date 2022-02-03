@@ -1,4 +1,4 @@
-import templates.keys as keys
+import create_dash_app.templates.keys as keys
 
 DIR_NAME = 'callbacks'
 

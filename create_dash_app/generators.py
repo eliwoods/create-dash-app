@@ -3,11 +3,11 @@ import logging
 import os
 import shutil
 
-import templates.assets as assets
-import templates.callbacks as callbacks
-import templates.components as components
-import templates.keys as keys
-import templates.root as root
+import create_dash_app.templates.assets as assets
+import create_dash_app.templates.callbacks as callbacks
+import create_dash_app.templates.components as components
+import create_dash_app.templates.keys as keys
+import create_dash_app.templates.root as root
 
 LOG = logging.getLogger(__file__)
 
