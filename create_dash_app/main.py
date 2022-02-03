@@ -1,35 +1,12 @@
 from argparse import ArgumentParser
 from typing import Dict
 import logging
-import logging.config
+
+from rich.logging import RichHandler
 
 from create_dash_app.generators import FileGenerator, DEFAULT_ROOT_PATH, DEFAULT_APP_BASE
 
 LOG = logging.getLogger(__file__)
-
-LOGGING_CONFIG = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'standard': {
-            'format': '%(asctime)s | %(levelname)s | %(processName)s %(name)s:%(lineno)d | %(message)s',
-        },
-    },
-    'handlers': {
-        'console': {
-            'formatter': 'standard',
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-        }
-    },
-    'loggers': {
-        '': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False
-        },
-    },
-}
 
 
 def parse_args() -> Dict[str, str]:
@@ -54,20 +31,22 @@ def parse_continue() -> bool:
     return parsed
 
 
-# TODO(ew) we still are prompted to continue even if folder doesn't exist
-def main():
-    kwargs = parse_args()
-    logging.config.dictConfig(LOGGING_CONFIG)
+def main() -> None:
+    cli_args = parse_args()
+    logging.basicConfig(
+        level='NOTSET', format='%(message)s', datefmt='[%X]', handlers=[RichHandler()]
+    )
     LOG.debug('Configured logging')
-    force = kwargs.pop('force')
+    force = cli_args.pop('force')
 
-    gen = FileGenerator(**kwargs)
+    gen = FileGenerator(**cli_args)
     if gen.exists and not force:
-        LOG.info(f'The application "{gen.base}" already exists. Do you want to continue [Y/n]?')
+        LOG.warning(f'The application "{gen.base}" already exists and may be overwritten. '
+                    f'Do you want to continue [Y/n]?')
         cont = parse_continue()
 
         while cont is None:
-            LOG.info('Unable to parse response. Do you want to continue [Y/n]?')
+            LOG.warning('Unable to parse response. Do you want to continue [Y/n]?')
             cont = parse_continue()
 
         if not cont:
