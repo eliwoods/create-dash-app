@@ -1,19 +1,12 @@
-from pathlib import Path
 from unittest import TestCase
 from tempfile import TemporaryDirectory
 from typing import List, Dict, Union
 import os
-import sys
 
-try:
-    from generators import FileGenerator
-except ImportError:
-    # Update python path to point to src dir in case it isn't included
-    ROOT_DIR = Path(__file__).parent.parent.resolve()
-    sys.path.append(os.path.join(ROOT_DIR, 'src'))
-    from generators import FileGenerator
+from create_dash_app.generators import DashAppGenerator
 
 
+# TODO(ew) write test that runs the dash app
 class GeneratorTests(TestCase):
 
     def test_root_exists(self):
@@ -21,7 +14,7 @@ class GeneratorTests(TestCase):
         Test the app is built in the right place
         """
         with TemporaryDirectory() as _dir:
-            gen = FileGenerator(path=_dir, cache=_dir)
+            gen = DashAppGenerator(path=_dir, cache=_dir)
             gen.run()
 
             self.assertTrue(os.path.isdir(gen.abs_base))
@@ -69,7 +62,7 @@ class GeneratorTests(TestCase):
 
     def test_file_tree(self):
         with TemporaryDirectory() as _dir:
-            gen = FileGenerator(path=_dir, cache=_dir)
+            gen = DashAppGenerator(path=_dir, cache=_dir)
             gen.run()
 
             gen_tree = self.get_tree_dict(gen.abs_base)

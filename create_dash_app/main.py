@@ -4,7 +4,7 @@ import logging
 
 from rich.logging import RichHandler
 
-from create_dash_app.generators import FileGenerator, DEFAULT_ROOT_PATH, DEFAULT_APP_BASE
+from create_dash_app.generators import DashAppGenerator, DEFAULT_ROOT_PATH, DEFAULT_APP_BASE
 
 LOG = logging.getLogger(__file__)
 
@@ -39,7 +39,7 @@ def main() -> None:
     LOG.debug('Configured logging')
     force = cli_args.pop('force')
 
-    gen = FileGenerator(**cli_args)
+    gen = DashAppGenerator(**cli_args)
     if gen.exists and not force:
         LOG.warning(f'The application "{gen.base}" already exists and may be overwritten. '
                     f'Do you want to continue [Y/n]?')
@@ -50,7 +50,8 @@ def main() -> None:
             cont = parse_continue()
 
         if not cont:
-            LOG.info('Exiting build')
+            LOG.info('Exiting')
+            return
 
     gen.run()
 

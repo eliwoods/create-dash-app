@@ -18,6 +18,9 @@ if __name__ == '__main__':
 '''
 
 SERVER_TEMPLATE = f'''\
+import os
+
+from flask_cache import Cache
 import dash
 import dash_bootstrap_components as dbc
 
@@ -30,13 +33,13 @@ app = dash.Dash(
     # Dash throws exceptions about callbacks from components that might be not loaded yet if
     # elements like Tabs are used. These alerts are annoying so suppress them.
     suppress_callback_exceptions=True,
-    title={{{keys.TITLE}}},
+    title='{{{keys.TITLE}}}',
 )
 cache = Cache(
     app.server,
     config={{{{
         'CACHE_TYPE': 'filesystem',
-        'CACHE_DIR': os.path.join({{{keys.CACHE_PATH}}}, 'dash-cache'),
+        'CACHE_DIR': os.path.join('{{{keys.CACHE_PATH}}}', 'dash-cache'),
     }}}}
 )
 

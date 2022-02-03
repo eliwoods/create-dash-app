@@ -15,7 +15,7 @@ DEFAULT_APP_BASE = 'dash_app'
 DEFAULT_ROOT_PATH = '.'
 
 
-class FileGenerator:
+class DashAppGenerator:
 
     def __init__(self, base: Optional[str] = DEFAULT_APP_BASE, title: Optional[str] = DEFAULT_APP_BASE,
                  path: Optional[str] = DEFAULT_ROOT_PATH, cache: Optional[str] = DEFAULT_ROOT_PATH) -> None:
@@ -91,7 +91,7 @@ class FileGenerator:
         LOG.info('Generating asset files')
         assets_path = os.path.join(self.abs_base, assets.DIR_NAME)
         if os.path.isdir(assets_path):
-            LOG.debug(f'Deleting assets dir {assets_path}')
+            LOG.debug(f'Deleting existing assets dir {assets_path}')
             shutil.rmtree(assets_path)
         shutil.copytree(assets.SRC_PATH, assets_path)
 
