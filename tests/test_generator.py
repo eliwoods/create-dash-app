@@ -61,16 +61,13 @@ class GeneratorTests(TestCase):
         ], key=lambda x: x['root'])
 
     def test_file_tree(self):
-        from pprint import pprint
         with TemporaryDirectory() as _dir:
             gen = DashAppGenerator(path=_dir, cache=_dir)
             gen.run()
 
             gen_tree = self.get_tree_dict(gen.abs_base)
-            print('GENERATED')
-            pprint(gen_tree)
-            print('TRUE')
-            pprint(self.true_tree)
+            # The ordering seems random when running on github actions, so test each component
+            # of the tree level individually on a structure sorted by the root dir name
             for l0, l1 in zip(gen_tree, self.true_tree):
                 self.assertEqual(l0['root'], l1['root'])
                 self.assertCountEqual(l0['dirs'], l1['dirs'])
