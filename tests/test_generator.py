@@ -66,4 +66,8 @@ class GeneratorTests(TestCase):
             gen.run()
 
             gen_tree = self.get_tree_dict(gen.abs_base)
+            print('GENERATED')
+            print(gen_tree)
+            print('TRUE')
+            print(self.true_tree)
             self.assertCountEqual(gen_tree, self.true_tree)
