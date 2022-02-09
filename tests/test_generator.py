@@ -33,11 +33,11 @@ class GeneratorTests(TestCase):
                 'files': files,
             })
 
-        return output
+        return sorted(output, key=lambda x: x['root'])
 
     @property
     def true_tree(self) -> List[Dict[str, Union[str, List[str]]]]:
-        return [
+        return sorted([
             {
                 'root': 'dash_app',
                 'dirs': ['callbacks', 'components', 'assets'],
@@ -58,7 +58,7 @@ class GeneratorTests(TestCase):
                 'dirs': [],
                 'files': ['dbc.min.css', 'dash.min.css'],
             },
-        ]
+        ], key=lambda x: x['root'])
 
     def test_file_tree(self):
         with TemporaryDirectory() as _dir:
@@ -66,4 +66,9 @@ class GeneratorTests(TestCase):
             gen.run()
 
             gen_tree = self.get_tree_dict(gen.abs_base)
-            self.assertListEqual(gen_tree, self.true_tree)
+            # The ordering seems random when running on github actions, so test each component
+            # of the tree level individually on a structure sorted by the root dir name
+            for l0, l1 in zip(gen_tree, self.true_tree):
+                self.assertEqual(l0['root'], l1['root'])
+                self.assertCountEqual(l0['dirs'], l1['dirs'])
+                self.assertCountEqual(l0['files'], l1['files'])
