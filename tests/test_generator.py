@@ -33,11 +33,11 @@ class GeneratorTests(TestCase):
                 'files': files,
             })
 
-        return output
+        return sorted(output, key=lambda x: x['root'])
 
     @property
     def true_tree(self) -> List[Dict[str, Union[str, List[str]]]]:
-        return [
+        return sorted([
             {
                 'root': 'dash_app',
                 'dirs': ['callbacks', 'components', 'assets'],
@@ -58,16 +58,20 @@ class GeneratorTests(TestCase):
                 'dirs': [],
                 'files': ['dbc.min.css', 'dash.min.css'],
             },
-        ]
+        ], key=lambda x: x['root'])
 
     def test_file_tree(self):
+        from pprint import pprint
         with TemporaryDirectory() as _dir:
             gen = DashAppGenerator(path=_dir, cache=_dir)
             gen.run()
 
             gen_tree = self.get_tree_dict(gen.abs_base)
             print('GENERATED')
-            print(gen_tree)
+            pprint(gen_tree)
             print('TRUE')
-            print(self.true_tree)
-            self.assertCountEqual(gen_tree, self.true_tree)
+            pprint(self.true_tree)
+            for l0, l1 in zip(gen_tree, self.true_tree):
+                self.assertEqual(l0['root'], l1['root'])
+                self.assertCountEqual(l0['dirs'], l1['dirs'])
+                self.assertCountEqual(l0['files'], l1['files'])
