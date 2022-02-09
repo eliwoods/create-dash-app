@@ -2,7 +2,7 @@
 ***
 [![PyPI version](https://badge.fury.io/py/create-dash-app.svg)](https://badge.fury.io/py/create-dash-app)
 [![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-![Build status](https://github.com/eliwoods/create-dash-app/actions/workflows/main.yml/badge.svg)
+![Build status](https://github.com/eliwoods/create-dash-app/actions/workflows/test.yml/badge.svg)
 
 
 
