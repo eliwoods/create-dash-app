@@ -4,7 +4,7 @@ APP_TEMPLATE = f'''\
 from {{{keys.BASE}}}.components.index import Layout
 from {{{keys.BASE}}}.server import app
 
-# In order for callbacks to work, they must be imported where Dash is instantiated 
+# In order for callbacks to work, they must be imported where Dash is instantiated
 # noinspection PyUnresolvedReferences
 import {{{keys.BASE}}}.callbacks.index
 
@@ -14,7 +14,7 @@ app.layout = Layout
 
 if __name__ == '__main__':
     app.runserver(debug=True)
-    
+
 '''
 
 SERVER_TEMPLATE = f'''\
@@ -28,7 +28,7 @@ import dash_bootstrap_components as dbc
 app = dash.Dash(
     __name__,
     external_stylesheets=[
-        dbc.themes.CYBORG, 
+        dbc.themes.CYBORG,
     ],
     # Dash throws exceptions about callbacks from components that might be not loaded yet if
     # elements like Tabs are used. These alerts are annoying so suppress them.

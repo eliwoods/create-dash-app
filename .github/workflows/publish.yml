@@ -1,6 +1,29 @@
-- name: Publish distrubtion to PyPI
-  if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/rel`)
-  uses: pypa/gh-action-pypi-publish@release/v1
-  with:
-    user: __token__
-    password: ${{ secrets.PYPI_API_TOKEN }}
+name: Publish to PyPI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-publish:
+    name: Build and publish create-dash-app distributions to PyPI
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Install build
+        run: |
+          python -m pip install build --user
+      - name: Build binary wheel and source tarball
+        run: |
+          python -m build --sdist --wheel --outdir dist/.
+      - name: Publish to PyPI
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/rel`)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
