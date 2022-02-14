@@ -45,7 +45,9 @@ python -m create_dash_app
 ```
 
 ## Structure
-The main point of this package is to lay out your new app in a helpful structure, so you might wonder what that is
+The main point of this package is to lay out your new app in a helpful structure, so let's take a moment to
+review this snazzy structure.
+
 ```markdown
 dash_app
 ├── __init__.py
@@ -62,6 +64,9 @@ dash_app
 ├── server.py
 └── wsgi.py
 ```
+
+This layout should intuitively make sense if you are familiar with Dash, but if you are a newbie or you can't
+read my mind here is a file/folder level breakdown.
 
 ### Root Level Files
 `app.py`
@@ -87,13 +92,13 @@ gunicorn dash_app.wsgi -b :8050
 ```
 
 ### Assets
-This folder contains any static assets you want to host. Read [this page](https://dash.plotly.com/dash-enterprise/static-assets)
-for more information on the assets folder.
+This folder contains any static assets (CSS, images, JavaScript, etc.) you want to host. Read 
+[this page](https://dash.plotly.com/external-resources) for more information on the `assets` folder.
 
 ### Callbacks
 All of your callback definitions should live here. `callbacks.index` is imported by `app.py` to prevent any circular
 dependency issues with the `Dash` object. It also means that if you create additional callback files, you only have
-to import them in `index.py` and they will flow through to your app.
+to import them in `callbacks.index` and they will flow through to your app.
 
 ### Components
 All of your components definitions should live here, with `components.index.Layout` acting as the highest level `Div`.
