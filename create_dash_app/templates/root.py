@@ -1,8 +1,8 @@
 import create_dash_app.templates.keys as keys
 
-APP_TEMPLATE = f'''\
+SERVER_TEMPLATE = f'''\
 from {{{keys.BASE}}}.components.index import Layout
-from {{{keys.BASE}}}.server import app
+from {{{keys.BASE}}}.app import app
 
 # In order for callbacks to work, they must be imported where Dash is instantiated
 # noinspection PyUnresolvedReferences
@@ -13,14 +13,14 @@ app.layout = Layout
 
 
 if __name__ == '__main__':
-    app.runserver(debug=True)
+    app.run_server(debug=True)
 
 '''
 
-SERVER_TEMPLATE = f'''\
+APP_TEMPLATE = f'''\
 import os
 
-from flask_cache import Cache
+from flask_caching import Cache
 import dash
 import dash_bootstrap_components as dbc
 
