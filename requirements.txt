@@ -1,4 +1,4 @@
-Flask-Cache>=0.13.1
+Flask-Caching>=1.10.1
 build>=0.7.0
 dash>=2.1.0
 dash-bootstrap-components>=1.0.2

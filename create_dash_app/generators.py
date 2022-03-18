@@ -72,8 +72,8 @@ class DashAppGenerator:
     def generate_root_files(self) -> None:
         LOG.info('Generating root files')
         self._generate_init()
-        self._generate('server.py', root.APP_TEMPLATE, template_kwargs=self._kwargs())
-        self._generate('app.py', root.SERVER_TEMPLATE,
+        self._generate('server.py', root.SERVER_TEMPLATE, template_kwargs=self._kwargs())
+        self._generate('app.py', root.APP_TEMPLATE,
                        template_kwargs=self._kwargs(**{keys.CACHE_PATH: self.cache_path}))
         self._generate('wsgi.py', root.WSGI_TEMPLATE, template_kwargs=self._kwargs())
 
@@ -95,7 +95,7 @@ class DashAppGenerator:
             shutil.rmtree(assets_path)
         shutil.copytree(assets.SRC_PATH, assets_path)
 
-    def run(self):
+    def run(self) -> None:
         self.init_root_dir()
         self.generate_root_files()
         self.generate_callback_files()
